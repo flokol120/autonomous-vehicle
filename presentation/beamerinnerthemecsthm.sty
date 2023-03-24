@@ -1,0 +1,110 @@
+\RequirePackage{listings} %listings environments with syntax higlighting
+\RequirePackage{lstautogobble} % automatically gobble indentation of code paragraph
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%% Title Page %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\newlength{\logopadding}
+\setlength{\logopadding}{3mm}
+
+\defbeamertemplate*{title page}{customized}[1][]
+{
+%TODO see if we can make this work with newgeometry
+%(currently it does not, because the title page is inside a frame)s
+%\newgeometry{top=0cm, left=0cm, bottom=0cm, right=0cm, textwidth=\paperwidth}
+%first minipage: title and subtitle
+\begin{minipage}[t][.4\textheight][t]{\textwidth}
+% parbox is used to shift content outside of normal text area without changing margins
+% |------------pagewidth-------------|
+%   |--------textwidth-------------|
+%   |---------------parbox-----------|
+\parbox{\dimexpr.5\paperwidth+.5\textwidth}{\vspace*{\logopadding}\insertlogo\hspace*{\logopadding}}
+\begin{center}
+\bigskip
+  \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%
+    \end{beamercolorbox}%\insertsubtitle\par
+\end{center}
+\end{minipage}
+\hspace*{-.5\dimexpr\paperwidth-\textwidth}\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\node[anchor=north west] at (current page.north west){\inserttitlegraphic};
+\node[anchor=north west,yshift=-.5cm] at (current page.north west){\colorbox{white}{\parbox{5cm}{
+  \begin{beamercolorbox}[sep=2pt,left,wd=5cm]{author}
+    \usebeamerfont{author}\insertauthor\par
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=2pt,left,wd=5cm]{institute}
+    \usebeamerfont{institute}\insertinstitute\par
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=2pt,left,wd=5cm]{date}
+    \usebeamerfont{date}\insertdate\par
+  \end{beamercolorbox}
+}}};
+\end{tikzpicture}
+}
+
+% use MNI-logo as default logo
+\logo{\hfill\includegraphics[height=.7cm]{img/MNI-Logo.pdf}}
+
+
+%%%%%%%%%%%%%%%%%%%%
+%%%%%% Blocks %%%%%%
+%%%%%%%%%%%%%%%%%%%%
+\defbeamertemplate*{block begin}{customized}
+{
+\usebeamercolor{block title}
+\mdfsetup{%
+frametitle={%%hspace: 5 pt margin + 2pt border
+	\hspace*{-7pt}\tikz[baseline=(current bounding box.east),outer sep=0pt]
+	\node[
+		anchor=east,  
+		draw=block title.bg,
+		fill=block title.bg,
+		line width=2pt,
+		shape=rectangle with rounded corners,
+		rectangle with rounded corners north west=8pt,
+		rectangle with rounded corners south west=0pt,
+		rectangle with rounded corners north east=0pt,
+		rectangle with rounded corners south east=8pt
+	]
+	{
+		\usebeamercolor[fg]{block title}\usebeamerfont{block title}\insertblocktitle%
+	};
+},
+frametitleaboveskip=-2pt,
+linewidth=2pt,linecolor=block title.bg,
+innerrightmargin=5pt,innerleftmargin=5pt,roundcorner=8pt,
+innertopmargin=0pt,frametitlebelowskip=3pt}
+\begin{mdframed}
+\usebeamerfont{block body}%
+\begin{beamercolorbox}{block body}
+}
+
+\defbeamertemplate*{block end}{customized}
+{\end{beamercolorbox}\end{mdframed}}
+
+
+\setbeamerfont{block title}{size=\normalsize,series=\mdseries}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Listings %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\lstset{literate={*}{{\char42}}1{-}{{\char45}}1} %makes * and - copy-pasteable
+%\lstset{backgroundcolor=\color{white}}
+\lstset{keepspaces=true}
+\lstset{columns=flexible}
+\lstset{inputencoding=utf8}
+\lstset{literate=%
+    {Ö}{{\"O}}1
+    {Ä}{{\"A}}1
+    {Ü}{{\"U}}1
+    {ß}{{\ss}}2
+    {ü}{{\"u}}1
+    {ä}{{\"a}}1
+    {ö}{{\"o}}1
+}
+\lstset{autogobble=true}

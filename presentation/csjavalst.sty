@@ -1,0 +1,37 @@
+\definecolor{keycol}{HTML}{002878} % THM diagram blue
+\definecolor{comcol}{HTML}{80BA24} % THM green
+\definecolor{strcol}{HTML}{9C132D} % THM diagram red
+\definecolor{idfcol}{HTML}{414F5C} % THM gray
+
+\lstset{language=Java}
+\lstset{morekeywords={assert}}
+\lstset{keywordstyle=\color{keycol}\bfseries}
+\lstset{basicstyle=\small\ttfamily}%\fontfamily{pcr}\fontseries{m}\selectfont
+\lstset{commentstyle=\color{comcol}}
+\lstset{stringstyle=\color{strcol}}
+%\lstset{identifierstyle=\color{idfcol}}
+
+\definecolor{hl1}{HTML}{80BA24} % THM green
+\definecolor{hl2}{HTML}{9C132D} % THM diagram red
+\definecolor{hl3}{HTML}{002878} % THM diagram blue
+\definecolor{hl4}{HTML}{F5AA01} % THM diagram yellow
+\definecolor{hl5}{HTML}{00B8E6} % THM diagram cyan
+
+\newcommand{\enableLstHighlightDelims}{
+	\lstset{language={}}
+	\lstset{moredelim=**[is][\color{hl1}]{@}{@}}
+	\lstset{moredelim=**[is][\color{hl2}]{@@}{@@}}
+	\lstset{moredelim=**[is][\color{hl3}]{@@@}{@@@}}
+	\lstset{moredelim=**[is][\color{hl4}]{@@@@}{@@@@}}
+	\lstset{moredelim=**[is][\color{hl5}]{@@@@@}{@@@@@}}
+	\lstset{moredelim=**[is][\color<2>{hl1}]{§}{§}}
+	\lstset{moredelim=**[is][\color<3>{hl2}]{§§}{§§}}
+	\lstset{moredelim=**[is][\color<4>{hl3}]{§§§}{§§§}}
+	\lstset{moredelim=**[is][\color<5>{hl4}]{§§§§}{§§§§}}
+	\lstset{moredelim=**[is][\color<6>{hl5}]{§§§§§§}{§§§§§}}
+	\lstset{moredelim=**[is][\color<2>{hl1}]{~}{~}}
+	\lstset{moredelim=**[is][\color<3>{hl1}]{~~}{~~}}
+	\lstset{moredelim=**[is][\color<4>{hl1}]{~~~}{~~~}}
+	\lstset{moredelim=**[is][\color<5>{hl1}]{~~~~}{~~~~}}
+	\lstset{moredelim=**[is][\color<6>{hl1}]{~~~~~}{~~~~~}}
+}

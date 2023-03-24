@@ -1,0 +1,114 @@
+\RequirePackage{tikz}
+\RequirePackage[framemethod=TikZ]{mdframed} %for block styling
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% TikZ-Rectangles with independent rounded Corners %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Source: http://tex.stackexchange.com/questions/32867/tikz-rectangular-node-with-different-rounded-corners
+% Author: Roelof Spijker
+\tikzset{
+  rectangle with rounded corners north west/.initial=4pt,
+  rectangle with rounded corners south west/.initial=4pt,
+  rectangle with rounded corners north east/.initial=4pt,
+  rectangle with rounded corners south east/.initial=4pt,
+}
+\makeatletter
+\pgfdeclareshape{rectangle with rounded corners}{
+  \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+  \inheritanchorborder[from=rectangle]
+  \inheritanchor[from=rectangle]{center}
+  \inheritanchor[from=rectangle]{north}
+  \inheritanchor[from=rectangle]{south}
+  \inheritanchor[from=rectangle]{west}
+  \inheritanchor[from=rectangle]{east}
+  \inheritanchor[from=rectangle]{north east}
+  \inheritanchor[from=rectangle]{south east}
+  \inheritanchor[from=rectangle]{north west}
+  \inheritanchor[from=rectangle]{south west}
+  \backgroundpath{% this is new
+    % store lower right in xa/ya and upper right in xb/yb
+    \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    % construct main path
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north west}{\pgf@rectc}
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+    \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north east}{\pgf@rectc}
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south east}{\pgf@rectc}
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south west}{\pgf@rectc}
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}
+    \pgfpathclose
+ }
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\useinnertheme{csthm}
+\useoutertheme{csthm}
+\usecolortheme{csthm}
+
+%turn off navigation symbols
+\defbeamertemplate*{navigation symbols}{customized}{}
+
+
+%turn off logo
+\defbeamertemplate*{sidebar right}{customized}{}
+
+% reset page margins
+\setbeamersize{text margin left=5mm, text margin right=5mm}
+
+% additional colors
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.9,0.9,0.9}
+\definecolor{lightgray2}{rgb}{0.97,0.97,0.97}
+\definecolor{lightblue}{rgb}{0.9,0.9,1}
+\definecolor{lightblue2}{rgb}{0.97,0.97,1}
+\definecolor{textgreen}{rgb}{0.2,0.6,0.2}
+\definecolor{textyellow}{rgb}{0.77,0.77,0.2}
+\definecolor{textorange}{rgb}{0.87,0.67,0.2}
+
+
+% highlighting commands
+\newcommand{\stress}[1]{\textcolor{THMdiagramLightBlue}{#1}}
+\newcommand{\warn}[1]{\textcolor{THMdiagramRed}{#1}}
+
+
+% creates frame that does only display a single image
+\newcommand{\imageframe}[1]{
+  { % to delimit a block (we only want to remove the header for this frame)
+    \setbeamertemplate{headline}{}
+    \setbeamertemplate{footline}{}
+	  \setbeamertemplate{frametitle}{}
+    %TODO find correct vspace expression
+    \begin{frame}[t,plain]
+      \hspace*{-.5\dimexpr\paperwidth-\textwidth}\includegraphics[width=\paperwidth]{#1}
+    \end{frame}
+  }
+}
+
+% creates a frame with the table of contents highlighting the current section
+% on the left and a custom image (or other content) on the right
+\newcommand{\tocWithImage}[1]{
+  \begin{frame}[t]{Inhalt}
+    \vspace{-5mm}
+    \begin{columns}[T]
+      \begin{column}{.5\textwidth}
+        \begin{minipage}[c][.8\textheight][c]{\textwidth}
+          \tableofcontents[currentsection]
+          \vfill
+        \end{minipage}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \begin{minipage}[c][.8\textheight][c]{\textwidth}
+          #1
+        \end{minipage}
+      \end{column}
+    \end{columns}
+  \end{frame}
+}

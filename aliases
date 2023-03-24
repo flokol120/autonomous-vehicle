@@ -1,0 +1,31 @@
+alias build="colcon build"
+alias buildall="colcon build --allow-overriding car_controller gazebo_simulation image_processing remote_controller sensor_steer autonomous_driving"
+
+help(){
+    echo "Available Shorthands:
+    build - Build all packages
+    buildall - Build all packages with overrides
+    gazebo - Start gazebo simulation (required)
+    controller - Start controller (recommended)
+    image - Start image processing (required)
+    driver - Start driver (required)
+    sensorSteer - Start sensor steer
+    "
+}
+
+controller() {
+    $(cd src/remote_controller && pip install pynput > /dev/null)
+    ros2 run remote_controller ${1:-default}
+}
+alias gazebo="ros2 launch gazebo_simulation car.launch.py"
+image() {
+    $(cd src/remote_controller && pip install simple_pid > /dev/null)
+    ros2 run image_processing ${1:-default}
+}
+driver() {
+    $(cd src/remote_controller && pip install simple_pid > /dev/null)
+    ros2 run autonomous_driving ${1:-default}
+}
+sensorSteer() {
+    ros2 run sensor_steer ${1:-pid}
+}

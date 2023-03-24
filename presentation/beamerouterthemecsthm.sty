@@ -1,0 +1,47 @@
+%Headline with section navigation
+%\setbeamertemplate{headline}{%
+%\leavevmode%
+%  \hbox{%
+%    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1.125ex]{palette quaternary}%
+%    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+%    \end{beamercolorbox}%
+%  }
+%}
+
+\defbeamertemplate*{frametitle}{customized}[1][]
+{
+	\nointerlineskip % closes gap between title box and upper margin of page
+	\begin{beamercolorbox}[sep=3mm,#1,wd=\paperwidth]{frametitle}
+		\usebeamerfont{frametitle}%
+		\vbox{}\vskip-1.5ex%
+		\strut\insertframetitle\strut\par%
+		{%
+			\ifx\insertframesubtitle\@empty%
+			\else%
+			{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+			\fi
+		}%
+		\vskip-2ex%
+		\hspace*{-3mm}\color{THMgreen}{\rule{\paperwidth}{2pt}}
+	\end{beamercolorbox}
+}
+
+\newcommand{\extrafoot}[1]{\gdef\insertextrafoot{#1}}
+\extrafoot{}
+%TODO find robust way to patch \extrafoot{} at start of each frame
+
+% patch \begin{frame} to reset the footline extra material
+% Author: Matthew Leingang
+% Source: http://tex.stackexchange.com/questions/5491/how-do-i-insert-text-into-the-footline-of-a-specific-slide-in-beamer
+\makeatletter
+\let\beamer@original@frame=\frame
+\def\frame{\gdef\insertextrafoot{}\beamer@original@frame}
+\makeatother
+
+\defbeamertemplate*{footline}{customized}{
+\hspace*{1mm}\insertextrafoot%
+\ifnum \insertframenumber=1%
+\else%
+\hfill \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}\vspace*{.5ex}%
+\fi%
+}
